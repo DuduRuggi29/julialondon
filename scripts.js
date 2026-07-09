@@ -2,26 +2,26 @@
         function changeImage(element, imageUrl) {
             document.querySelectorAll('.gallery__thumb').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
-            document.getElementById('mainImage').innerHTML = '<img src="' + imageUrl + '" alt="Foto do Produto" style="width: 100%; height: auto; display: block; border-radius: inherit;">';
+            document.getElementById('mainImage').innerHTML = '<img src="' + imageUrl + '" alt="Product Photo" style="width: 100%; height: auto; display: block; border-radius: inherit;">';
         }
 
         // Selection logic
-        let selectedColor = 'Preto';
-        let selectedSize = 'P (40)';
+        let selectedColor = 'Black';
+        let selectedSize = 'S (40)';
         let selectedBundle = '2';
 
         function selectColor(element, color) {
             document.querySelectorAll('.swatch').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
             selectedColor = color;
-            document.getElementById('colorLabel').innerHTML = `Cor: <strong>${color}</strong>`;
+            document.getElementById('colorLabel').innerHTML = `Color: <strong>${color}</strong>`;
         }
 
         function selectSize(element, size) {
             document.querySelectorAll('.size-btn').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
             selectedSize = size;
-            document.getElementById('sizeLabel').innerHTML = `Tamanho: <strong>${size}</strong>`;
+            document.getElementById('sizeLabel').innerHTML = `Size: <strong>${size}</strong>`;
         }
 
         function selectBundle(element, value) {
@@ -33,12 +33,12 @@
             // Optional: Update main price based on bundle
             const price = element.querySelector('.current-price').innerText;
             const btnBuy = document.querySelector('.btn-buy-now');
-            btnBuy.innerHTML = `⚡ COMPRAR AGORA — ${price}`;
+            btnBuy.innerHTML = `⚡ BUY NOW — ${price}`;
         }
 
         function addToCart(btn) {
             const originalText = btn.innerText;
-            btn.innerHTML = "✓ ADICIONADO!";
+            btn.innerHTML = "✓ ADDED!";
             btn.style.backgroundColor = "var(--rosa-escuro)";
             setTimeout(() => {
                 btn.innerHTML = originalText;
@@ -58,7 +58,7 @@
             }
         }
 
-        // Filtros de avaliações
+        // Review filters
         document.querySelectorAll('.rev-filter').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.rev-filter').forEach(b => b.classList.remove('active'));

@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     try {
         const {
             customerName, customerEmail, customerCpf, customerPhone,
-            customerAddress, quantity, promo, totalPrice,
+            customerAddress, quantity, promo, totalPrice, discount,
             paymentMethodId, cardToken, cardPaymentMethodId, installments,
             shippingMethod, shippingPrice, tamanho, cor
         } = req.body;
@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
 
         const amount = Math.round(parseFloat(totalPrice) * 100) / 100;
         if (!amount || isNaN(amount) || amount <= 0) {
-            return res.status(400).json({ error: 'Valor inválido: ' + totalPrice });
+            return res.status(400).json({ error: 'Invalid amount: ' + totalPrice });
         }
 
         const mpBody = {
@@ -40,9 +40,9 @@ module.exports = async (req, res) => {
                 identification: { type: 'CPF', number: cpfClean },
                 phone: { area_code: telClean.slice(0, 2), number: telClean.slice(2) },
                 address: {
-                    zip_code: (customerAddress?.cep || '').replace(/\D/g, ''),
+                    zip_code: (customerAddress?.zip || '').replace(/\D/g, ''),
                     street_name: customerAddress?.street || '',
-                    street_number: customerAddress?.number || 'S/N'
+                    street_number: 'N/A'
                 }
             },
             notification_url: `${process.env.SITE_URL}/api/webhook`,
@@ -68,7 +68,7 @@ module.exports = async (req, res) => {
 
         if (!mpRes.ok) {
             console.error('MP Error:', mpData);
-            return res.status(400).json({ error: mpData.message || 'Erro no pagamento' });
+            return res.status(400).json({ error: mpData.message || 'Payment error' });
         }
 
         // Save order to Supabase
@@ -78,11 +78,11 @@ module.exports = async (req, res) => {
             email: customerEmail,
             telefone: customerPhone,
             cpf: customerCpf,
-            cep: customerAddress?.cep || '',
+            cep: customerAddress?.zip || '',
             rua: customerAddress?.street || '',
-            numero: customerAddress?.number || '',
-            complemento: customerAddress?.complement || '',
-            bairro: customerAddress?.neighborhood || '',
+            numero: '',
+            complemento: [customerAddress?.complement, customerAddress?.country].filter(Boolean).join(' · '),
+            bairro: '',
             cidade: customerAddress?.city || '',
             estado: customerAddress?.state || '',
             tipo_frete: shippingMethod || '',
@@ -95,8 +95,8 @@ module.exports = async (req, res) => {
             cor: cor || '',
             forma_pagamento: isPix ? 'PIX' : 'Cartão de Crédito',
             status_pagamento: mpData.status,
-            subtotal: parseFloat(totalPrice),
-            desconto: 0,
+            subtotal: parseFloat(totalPrice) + (parseFloat(discount) || 0),
+            desconto: parseFloat(discount) || 0,
             total: parseFloat(totalPrice),
             observacoes: `MP ID: ${mpData.id}`
         };
