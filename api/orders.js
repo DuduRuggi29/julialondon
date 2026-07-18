@@ -1,7 +1,7 @@
 
 const SUPABASE_URL  = process.env.SUPABASE_URL;
 const SUPABASE_KEY  = process.env.SUPABASE_SERVICE_KEY;
-const DASH_PASSWORD = process.env.DASHBOARD_PASSWORD || 'JuliaJulie2026';
+const DASH_PASSWORD = process.env.DASHBOARD_PASSWORD;
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN;
 
 module.exports = async (req, res) => {
@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     if (req.method === 'OPTIONS') return res.status(200).end();
 
     const pwd = req.headers['x-dashboard-password'];
-    if (pwd !== DASH_PASSWORD) return res.status(401).json({ error: 'Não autorizado' });
+    if (!DASH_PASSWORD || pwd !== DASH_PASSWORD) return res.status(401).json({ error: 'Não autorizado' });
 
     // Sync pending payments
     if (req.method === 'POST' && req.body?.action === 'sync') {
