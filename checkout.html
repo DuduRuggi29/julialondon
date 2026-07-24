@@ -165,8 +165,8 @@
             display: flex; align-items: center; justify-content: space-between;
             padding: 13px 16px; background: var(--accent-light); font-size: 14px; font-weight: 600;
         }
-        .payment-method-header .card-logos { display: flex; gap: 5px; align-items: center; }
-        .payment-method-header .card-logos img { height: 18px; width: auto; }
+        .payment-method-header .card-logos { display: flex; gap: 7px; align-items: center; }
+        .payment-method-header .card-logos i { font-size: 21px; line-height: 1; }
         .payment-method-fields { padding: 16px; border-top: 1px solid var(--border); background: #fff; }
         .payment-method-fields .form-group:last-child { margin-bottom: 0; }
         .billing-note { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted); background: #fafafa; }
@@ -251,7 +251,7 @@
         .payment-modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 22px; cursor: pointer; color: #999; }
         .payment-icons-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
         .pay-icon-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .pay-icon-item img { height: 36px; width: auto; object-fit: contain; }
+        .pay-icon-item i { font-size: 34px; line-height: 1; }
         .pay-icon-item span { font-size: 10px; color: #666; font-weight: 500; }
     </style>
 </head>
@@ -376,13 +376,13 @@
                 <div class="payment-method-header">
                     <span>Credit card</span>
                     <div class="card-logos">
-                        <img src="pay-visa.png" alt="Visa">
-                        <img src="pay-mc.png" alt="Mastercard">
+                        <i class="fab fa-cc-visa" style="color:#1a1f71;" aria-label="Visa"></i>
+                        <i class="fab fa-cc-mastercard" style="color:#eb001b;" aria-label="Mastercard"></i>
+                        <i class="fab fa-cc-amex" style="color:#2671b9;" aria-label="American Express"></i>
                     </div>
                 </div>
                 <div class="payment-method-fields">
-                    <p class="ship-placeholder" id="payment-placeholder">Complete your delivery address and pick a shipping method above to enter payment details.</p>
-                    <div id="payment-element" class="hidden"></div>
+                    <div id="payment-element"></div>
                     <div id="payment-element-error" class="field-error"></div>
                 </div>
                 <div class="billing-note"><i class="fas fa-check-circle"></i> Billing address same as shipping address</div>
@@ -493,12 +493,16 @@
         <h3>Payment Methods</h3>
         <div class="payment-icons-grid">
             <div class="pay-icon-item">
-                <img src="pay-visa.png" alt="Visa">
+                <i class="fab fa-cc-visa" style="color:#1a1f71;"></i>
                 <span>Visa</span>
             </div>
             <div class="pay-icon-item">
-                <img src="pay-mc.png" alt="Mastercard">
+                <i class="fab fa-cc-mastercard" style="color:#eb001b;"></i>
                 <span>Mastercard</span>
+            </div>
+            <div class="pay-icon-item">
+                <i class="fab fa-cc-amex" style="color:#2671b9;"></i>
+                <span>American Express</span>
             </div>
         </div>
     </div>
@@ -520,8 +524,9 @@
 
     const basePrice = PRICES[promoType] * qty;
     const oldPrice  = PROMO_OLD[promoType] * qty;
-    let selectedShippingPrice = null; // null = not yet selected
-    let selectedShippingName = '';
+    let selectedShippingPrice = 0; // default estimate shown before a method is picked
+    let selectedShippingName = 'Standard Shipping';
+    let shippingRevealed = false;
     let discountAmount = 0;
     let discountCode = '';
     const DISCOUNT_CODES = { 'JULIA10': 0.10, 'JULIE15': 0.15 };
@@ -557,7 +562,6 @@
         document.getElementById('disc-applied').classList.add('show');
         document.querySelector('.discount-box').classList.add('hidden');
         updateTotalDisplay();
-        initOrRefreshPayment();
     }
 
     function removeDiscount() {
@@ -567,7 +571,6 @@
         document.getElementById('disc-applied').classList.remove('show');
         document.querySelector('.discount-box').classList.remove('hidden');
         updateTotalDisplay();
-        initOrRefreshPayment();
     }
 
     // ── SHIPPING OPTIONS (revealed once delivery address is complete) ──
@@ -599,8 +602,9 @@
     }
 
     function checkRevealShipping() {
-        if (selectedShippingPrice !== null) { updateTotalDisplay(); return; }
+        if (shippingRevealed) { updateTotalDisplay(); return; }
         if (deliveryFieldsComplete()) {
+            shippingRevealed = true;
             document.getElementById('ship-placeholder').classList.add('hidden');
             document.getElementById('shipping-options-container').classList.remove('hidden');
             buildShippingOptions();
@@ -618,13 +622,14 @@
     function updateTotalDisplay() {
         const shipCost = selectedShippingPrice || 0;
         const total = Math.max(0, basePrice - discountAmount + shipCost);
-        const shipTxt = selectedShippingPrice === null ? 'Enter shipping address' : (shipCost === 0 ? 'Free' : fmt(shipCost));
+        const shipTxt = shippingRevealed ? (shipCost === 0 ? 'Free' : fmt(shipCost)) : 'Calculated at next step';
 
         document.getElementById('sum-subtotal').textContent = fmt(basePrice);
         document.getElementById('sum-shipping').textContent = shipTxt;
         document.getElementById('sum-total').textContent = fmt(total);
         document.getElementById('row-discount').classList.toggle('hidden', discountAmount === 0);
         document.getElementById('sum-discount').textContent = '-' + fmt(discountAmount);
+        updatePaymentAmount();
     }
     updateTotalDisplay();
 
@@ -645,7 +650,6 @@
         const target = document.querySelector(`.shipping-option[data-shipping-key="${type}"]`);
         if (target) target.classList.add('selected');
         updateTotalDisplay();
-        initOrRefreshPayment();
     }
 
     // ── VALIDATION ───────────────────────────────────────
@@ -681,20 +685,60 @@
         });
 
         if (ok) checkRevealShipping();
-        if (ok && selectedShippingPrice === null) { alert('Please select a shipping method.'); ok = false; markInvalid('sec-shipping'); }
+        if (ok && !shippingRevealed) { alert('Please select a shipping method.'); ok = false; markInvalid('sec-shipping'); }
 
         if (!ok && firstInvalid) document.getElementById(firstInvalid).scrollIntoView({ behavior:'smooth', block:'center' });
         return ok;
     }
 
-    // ── STRIPE PAYMENT ELEMENT ────────────────────────────
-    let currentClientSecret = null;
-    let paymentReady = false;
+    // ── STRIPE PAYMENT ELEMENT ─────────────────────────────
+    // Mounted once on load (card fields visible immediately, like the
+    // reference checkout). Amount updates live via elements.update() as
+    // shipping/discount change, without remounting — so a card number the
+    // buyer already started typing is never wiped. The real PaymentIntent
+    // (with the buyer's address in its metadata, used by the webhook) is
+    // only created at submit time, after validateAll() passes.
+    function initPaymentElement() {
+        elements = stripe.elements({
+            mode: 'payment',
+            amount: Math.round(basePrice * 100),
+            currency: 'usd',
+            appearance: {
+                theme: 'stripe',
+                variables: {
+                    colorPrimary: '#7a2a4a',
+                    colorText: '#1a1a1a',
+                    colorDanger: '#ef4444',
+                    fontFamily: 'Inter, sans-serif',
+                    borderRadius: '8px'
+                }
+            }
+        });
+        paymentElement = elements.create('payment');
+        paymentElement.mount('#payment-element');
+    }
+    initPaymentElement();
 
-    async function initOrRefreshPayment() {
-        if (selectedShippingPrice === null) return; // wait until shipping is chosen
+    function updatePaymentAmount() {
+        if (!elements) return;
+        const total = Math.max(0, basePrice - discountAmount + (selectedShippingPrice || 0));
+        elements.update({ amount: Math.round(total * 100) });
+    }
 
+    async function payWithCard() {
+        if (!validateAll()) return;
+        if (!elements) { alert('Payment form failed to load. Please refresh the page.'); return; }
+
+        document.getElementById('payment-element-error').classList.remove('show');
+        document.getElementById('loading-overlay').classList.add('active');
         try {
+            const { error: submitError } = await elements.submit();
+            if (submitError) {
+                document.getElementById('payment-element-error').textContent = submitError.message || 'Please check your card details.';
+                document.getElementById('payment-element-error').classList.add('show');
+                return;
+            }
+
             const res = await fetch('/api/create-payment-intent', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -719,31 +763,9 @@
             const data = await res.json();
             if (!res.ok || !data.clientSecret) throw new Error(data.error || 'Could not start payment.');
 
-            currentClientSecret = data.clientSecret;
-
-            if (paymentElement) { paymentElement.unmount(); paymentElement = null; }
-            elements = stripe.elements({ clientSecret: currentClientSecret });
-            paymentElement = elements.create('payment');
-            paymentElement.mount('#payment-element');
-
-            document.getElementById('payment-placeholder').classList.add('hidden');
-            document.getElementById('payment-element').classList.remove('hidden');
-            paymentReady = true;
-        } catch (e) {
-            console.error(e);
-            document.getElementById('payment-element-error').textContent = e.message;
-            document.getElementById('payment-element-error').classList.add('show');
-        }
-    }
-
-    async function payWithCard() {
-        if (!validateAll()) return;
-        if (!paymentReady || !elements) { alert('Please finish the delivery and shipping steps above first.'); return; }
-
-        document.getElementById('loading-overlay').classList.add('active');
-        try {
             const { error, paymentIntent } = await stripe.confirmPayment({
                 elements,
+                clientSecret: data.clientSecret,
                 confirmParams: {
                     return_url: `${window.location.origin}/obrigado.html?type=card`,
                     receipt_email: document.getElementById('cust-email').value,
