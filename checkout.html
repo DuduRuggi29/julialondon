@@ -188,8 +188,9 @@
         .btn-pay:hover { background: var(--accent-dark); }
 
         /* ── ORDER SUMMARY ── */
-        .order-summary { position: sticky; top: 24px; }
-        @media (max-width: 860px) { .order-summary { position: static; } }
+        /* Not sticky: a sticky sidebar without a fully opaque background
+           bleeds the content scrolling behind it through its gaps, which is
+           what caused the text-over-text overlap while scrolling. */
         .product-line { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
         .product-thumb-wrap { position: relative; flex-shrink: 0; }
         .product-thumb-wrap img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
