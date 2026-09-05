@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amountInCents,
             currency: 'usd',
-            automatic_payment_methods: { enabled: true },
+            payment_method_types: ['card'],
             receipt_email: customerEmail || undefined,
             metadata: {
                 promo: promoKey,
