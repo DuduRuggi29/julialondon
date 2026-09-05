@@ -25,11 +25,11 @@
             --card: #ffffff;
             --text: #1a1a1a;
             --muted: #6b7280;
-            --border: #e5e5e5;
+            --border: #e1e1e1;
             --danger: #ef4444;
             --danger-light: #fff5f5;
-            --radius: 10px;
-            --radius-sm: 8px;
+            --radius: 8px;
+            --radius-sm: 6px;
             --shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
@@ -47,79 +47,55 @@
         /* ── HEADER ── */
         .checkout-header {
             background: #ffffff;
-            padding: 14px 24px;
+            padding: 16px 24px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            position: relative;
             border-bottom: 1px solid var(--border);
         }
-        .header-logo img { height: 34px; width: auto; object-fit: contain; display: block; }
-        .header-cart { color: var(--text); font-size: 18px; }
-
-        /* ── TRUST STRIP ── */
-        .trust-strip {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            background: #faf7f8;
-            border-bottom: 1px solid var(--border);
-        }
-        .trust-strip > div { padding: 14px 24px; font-size: 12.5px; color: var(--text); line-height: 1.5; }
-        .trust-strip .ts-left { display: flex; align-items: center; gap: 10px; border-right: 1px solid var(--border); }
-        .trust-strip .ts-badge { background: var(--primary); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
-        .trust-strip strong { display: block; font-size: 13px; }
-        @media (max-width: 700px) {
-            .trust-strip { grid-template-columns: 1fr; }
-            .trust-strip .ts-left { border-right: none; border-bottom: 1px solid var(--border); }
-        }
+        .header-logo img { height: 30px; width: auto; object-fit: contain; display: block; }
+        .header-cart { color: var(--text); font-size: 17px; position: absolute; right: 24px; top: 50%; transform: translateY(-50%); }
 
         /* ── LAYOUT ── */
         .checkout-main {
-            max-width: 1040px;
-            margin: 32px auto 0;
+            max-width: 1000px;
+            margin: 36px auto 0;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 12px 48px;
+            grid-template-columns: 1fr 320px;
+            gap: 12px 56px;
             align-items: start;
             align-content: start;
             flex: 1;
             width: 100%;
         }
-        /* Single row, no spanning: .checkout-sidebar is one grid item holding
-           both summary blocks stacked via flexbox, so there is never a
-           multi-row track shared with .checkout-form to size incorrectly. */
         .checkout-form { grid-column: 1; }
         .checkout-sidebar { grid-column: 2; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
         @media (max-width: 860px) {
             .checkout-main { grid-template-columns: 1fr; margin-top: 16px; padding: 0 16px; gap: 20px; }
             .checkout-form { grid-column: 1; order: 2; }
-            /* Unwrap on mobile so order-summary / order-summary-extra become
-               direct grid items again and can interleave with the form. */
             .checkout-sidebar { display: contents; }
             .order-summary { grid-column: 1; order: 1; }
-            .order-summary-extra { grid-column: 1; order: 3; }
         }
 
         /* ── FORM SECTIONS ── */
-        .cf-section { margin-bottom: 30px; }
-        .cf-section h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
-        .cf-section h3 a { font-size: 13px; font-weight: 500; color: var(--primary); text-decoration: none; }
-        .cf-section h3 a:hover { text-decoration: underline; }
-        .cf-note { font-size: 12.5px; color: var(--muted); margin: -6px 0 14px; }
+        .cf-section { margin-bottom: 26px; }
+        .cf-section h3 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+        .cf-note { font-size: 12px; color: var(--muted); margin: -4px 0 12px; }
 
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
-        .req { color: var(--danger); margin-left: 1px; }
+        .form-group { margin-bottom: 8px; position: relative; }
         .form-group input, .form-group select {
-            width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm); font-size: 15px;
+            width: 100%; padding: 12px 14px; border: 1px solid var(--border);
+            border-radius: var(--radius-sm); font-size: 14.5px;
             font-family: 'Inter', sans-serif; outline: none;
             -webkit-appearance: none; appearance: none;
             background: white; color: var(--text);
             transition: border-color 0.15s, box-shadow 0.15s;
         }
+        .form-group input::placeholder { color: #8a8a8a; }
         .form-group input:focus, .form-group select:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 1px var(--primary);
@@ -127,20 +103,22 @@
         .form-group input.error { border-color: var(--danger) !important; box-shadow: 0 0 0 1px var(--danger); background: var(--danger-light); }
         .field-error { display: none; font-size: 11px; color: var(--danger); margin-top: 4px; font-weight: 500; }
         .field-error.show { display: block; }
+        .form-group .field-icon {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            color: #9a9a9a; font-size: 13px; pointer-events: none;
+        }
+        select.form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23666'%3E%3Cpath d='M5.5 7.5l4.5 4.5 4.5-4.5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+        }
 
         .checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); margin-top: 8px; cursor: pointer; }
         .checkbox-row input { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
 
         /* ── SHIPPING ── */
-        .ship-urgency {
-            display: flex; align-items: center; gap: 14px; background: #f4f0e8; border-radius: var(--radius-sm);
-            padding: 12px 16px; margin-bottom: 14px; font-size: 12.5px; color: var(--text);
-        }
-        .ship-countdown { display: flex; gap: 4px; font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--primary); }
-        .ship-countdown span { background: #fff; border-radius: 5px; padding: 3px 6px; }
-        .ship-placeholder { font-size: 13px; color: var(--muted); background: #fafafa; border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+        .ship-placeholder { font-size: 13px; color: var(--muted); background: #fafafa; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
 
-        .shipping-options { border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+        .shipping-options { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
         .shipping-option {
             display: flex; align-items: center; justify-content: space-between;
             padding: 14px 16px; background: white; cursor: pointer;
@@ -151,46 +129,44 @@
         .shipping-option.selected { background: var(--accent-light); }
         .shipping-info { display: flex; align-items: center; gap: 12px; }
         .radio-circle {
-            width: 20px; height: 20px; border: 2px solid #d0d0d0; border-radius: 50%;
+            width: 18px; height: 18px; border: 1.5px solid #c9c9c9; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             transition: border-color 0.2s; flex-shrink: 0;
         }
-        .shipping-option.selected .radio-circle { border-color: var(--primary); background: white; }
-        .radio-inner { width: 10px; height: 10px; background: var(--primary); border-radius: 50%; transform: scale(0); transition: transform 0.2s; }
-        .shipping-option.selected .radio-inner { transform: scale(1); }
+        .shipping-option.selected .radio-circle, .radio-circle.checked { border-color: var(--primary); background: white; }
+        .radio-inner { width: 9px; height: 9px; background: var(--primary); border-radius: 50%; transform: scale(0); transition: transform 0.2s; }
+        .shipping-option.selected .radio-inner, .radio-circle.checked .radio-inner { transform: scale(1); }
         .shipping-text { font-size: 14px; font-weight: 600; color: #1a1a1a; display: block; }
         .shipping-eta { font-size: 12px; color: var(--muted); display: block; margin-top: 2px; }
         .shipping-price { font-size: 14px; font-weight: 600; white-space: nowrap; color: #1a1a1a; }
         .shipping-price.free { color: #1a9b5c; }
 
         /* ── PAYMENT ── */
-        .payment-note { font-size: 12.5px; color: var(--muted); margin-bottom: 14px; }
-        .payment-method-box { border: 1.5px solid var(--primary); border-radius: var(--radius); overflow: hidden; }
+        .payment-note { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+        .payment-method-box { border: 1px solid var(--primary); border-radius: var(--radius); overflow: hidden; }
         .payment-method-header {
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; align-items: center; gap: 10px; justify-content: space-between;
             padding: 13px 16px; background: var(--accent-light); font-size: 14px; font-weight: 600;
         }
-        .payment-method-header .card-logos { display: flex; gap: 7px; align-items: center; }
-        .payment-method-header .card-logos i { font-size: 21px; line-height: 1; }
+        .payment-method-header .pm-left { display: flex; align-items: center; gap: 10px; }
+        .payment-method-header .card-logos { display: flex; gap: 6px; align-items: center; }
+        .payment-method-header .card-logos i { font-size: 20px; line-height: 1; }
         .payment-method-fields { padding: 16px; border-top: 1px solid var(--border); background: #fff; }
         .payment-method-fields .form-group:last-child { margin-bottom: 0; }
-        .billing-note { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted); background: #fafafa; }
-        .billing-note i { color: #1a9b5c; }
+        .billing-check { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text); background: #fafafa; }
+        .billing-check input { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
 
         /* ── BUTTONS ── */
         .btn-pay {
             width: 100%; background: var(--primary); color: white; border: none;
             padding: 15px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; cursor: pointer;
-            margin-top: 22px;
+            margin-top: 20px;
             display: flex; align-items: center; justify-content: center; gap: 8px;
             transition: all 0.2s; font-family: 'Inter', sans-serif;
         }
         .btn-pay:hover { background: var(--accent-dark); }
 
         /* ── ORDER SUMMARY ── */
-        /* Not sticky: a sticky sidebar without a fully opaque background
-           bleeds the content scrolling behind it through its gaps, which is
-           what caused the text-over-text overlap while scrolling. */
         .product-line { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
         .product-thumb-wrap { position: relative; flex-shrink: 0; }
         .product-thumb-wrap img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
@@ -202,15 +178,15 @@
         .product-price-old { display: block; font-size: 12px; color: var(--muted); text-decoration: line-through; }
         .product-price-current { display: block; font-size: 14px; font-weight: 700; }
 
-        .discount-box { display: flex; gap: 8px; margin-bottom: 10px; }
-        .discount-box input { flex: 1; padding: 11px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Inter', sans-serif; outline: none; }
+        .discount-box { display: flex; gap: 8px; margin-bottom: 14px; }
+        .discount-box input { flex: 1; padding: 11px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Inter', sans-serif; outline: none; }
         .discount-box input:focus { border-color: var(--primary); }
         .discount-box button { padding: 11px 18px; background: #f1f1f1; color: var(--text); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: 'Inter', sans-serif; }
         .discount-box button:hover { background: #e5e5e5; }
         .discount-applied { display: none; align-items: center; justify-content: space-between; background: #f0faf5; border: 1px dashed #1a9b5c; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; font-size: 12px; color: #1a7a4a; font-weight: 600; }
         .discount-applied.show { display: flex; }
         .discount-applied button { background: none; border: none; color: #1a7a4a; text-decoration: underline; cursor: pointer; font-size: 12px; font-family: 'Inter', sans-serif; }
-        .discount-error { display: none; font-size: 11px; color: var(--danger); margin: -4px 0 10px; }
+        .discount-error { display: none; font-size: 11px; color: var(--danger); margin: -6px 0 10px; }
         .discount-error.show { display: block; }
 
         .summary-rows { border-top: 1px solid var(--border); padding-top: 14px; margin-top: 4px; }
@@ -221,22 +197,6 @@
         .summary-row.total span:last-child { color: var(--text); }
         .summary-row.total .currency-code { font-size: 12px; font-weight: 500; color: var(--muted); margin-right: 4px; }
 
-        .savings-pill { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--primary); background: var(--accent-light); border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 16px; }
-
-        .order-summary-extra { border-top: 1px solid var(--border); padding-top: 18px; }
-        @media (max-width: 860px) { .order-summary-extra { border-top: none; padding-top: 0; } }
-        .trust-list { margin-top: 0; }
-        .trust-list-item { display: flex; gap: 12px; margin-bottom: 16px; }
-        .trust-list-item i { color: var(--primary); font-size: 16px; margin-top: 2px; }
-        .trust-list-item strong { display: block; font-size: 13px; margin-bottom: 2px; }
-        .trust-list-item p { font-size: 12px; color: var(--muted); line-height: 1.4; }
-
-        .review-list { margin-top: 22px; display: flex; flex-direction: column; gap: 12px; }
-        .review-card { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
-        .review-card .stars { color: #f59e0b; font-size: 12px; margin-bottom: 6px; }
-        .review-card p { font-size: 12.5px; color: var(--text); line-height: 1.5; margin-bottom: 6px; }
-        .review-card .review-name { font-size: 12px; font-weight: 700; color: var(--muted); }
-
         /* ── LOADING ── */
         .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(3px); }
         .loading-overlay.active { display: flex; }
@@ -245,20 +205,11 @@
         .loading-text { margin-top: 14px; font-weight: 600; color: var(--primary); font-size: 14px; }
 
         /* ── FOOTER ── */
-        .checkout-footer { background: #faf7f8; border-top: 1px solid var(--border); padding: 24px; text-align: center; margin-top: 48px; }
-        .footer-content { max-width: 680px; margin: 0 auto; }
-        .footer-payment-btn { background: none; border: none; color: var(--primary); padding: 0; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 14px; display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; text-decoration: underline; text-underline-offset: 3px; }
-        .footer-policies-notice { font-size: 11px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
-        .footer-legal { font-size: 11px; color: var(--muted); font-weight: 500; }
-        .payment-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
-        .payment-modal-overlay.open { display: flex; }
-        .payment-modal-box { background: #fff; border-radius: 16px; padding: 28px 24px; max-width: 340px; width: 100%; text-align: center; position: relative; }
-        .payment-modal-box h3 { font-size: 17px; color: #222; margin: 0 0 20px; }
-        .payment-modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 22px; cursor: pointer; color: #999; }
-        .payment-icons-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-        .pay-icon-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .pay-icon-item i { font-size: 34px; line-height: 1; }
-        .pay-icon-item span { font-size: 10px; color: #666; font-weight: 500; }
+        .checkout-footer { border-top: 1px solid var(--border); padding: 20px 24px 40px; text-align: center; margin-top: 40px; }
+        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 10px; font-size: 11.5px; }
+        .footer-links a { color: var(--muted); text-decoration: none; }
+        .footer-links a:hover { text-decoration: underline; }
+        .footer-links .sep { color: var(--border); }
     </style>
 </head>
 <body>
@@ -273,18 +224,6 @@
     <i class="fas fa-shopping-bag header-cart"></i>
 </header>
 
-<!-- TRUST STRIP -->
-<section class="trust-strip">
-    <div class="ts-left">
-        <span class="ts-badge"><i class="fas fa-shield-alt"></i> Shop worry-free</span>
-        <strong>30-Day Money-Back Guarantee</strong>
-    </div>
-    <div>
-        <strong>We've got you covered no matter what</strong>
-        Questions about sizing or your order? Email us anytime and we'll take care of it — plus tracking updates the whole way.
-    </div>
-</section>
-
 <main class="checkout-main">
     <div class="checkout-form">
 
@@ -292,8 +231,7 @@
         <div class="cf-section" id="sec-contact">
             <h3>Contact</h3>
             <div class="form-group">
-                <label>Email <span class="req">*</span></label>
-                <input type="email" id="cust-email" placeholder="you@email.com" autocomplete="email" inputmode="email">
+                <input type="email" id="cust-email" placeholder="Email" aria-label="Email" autocomplete="email" inputmode="email">
                 <span class="field-error" id="err-email">Invalid email address.</span>
             </div>
             <label class="checkbox-row"><input type="checkbox" id="marketing-consent"> Email me with news and offers</label>
@@ -303,73 +241,59 @@
         <div class="cf-section" id="sec-delivery">
             <h3>Delivery</h3>
             <div class="form-group">
-                <label>Country / Region <span class="req">*</span></label>
-                <select id="addr-country" autocomplete="country">
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Ireland">Ireland</option>
-                    <option value="New Zealand">New Zealand</option>
+                <select id="addr-country" class="form-select" aria-label="Country/Region" autocomplete="country">
+                    <option value="United States">🇺🇸 United States</option>
+                    <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                    <option value="Canada">🇨🇦 Canada</option>
+                    <option value="Australia">🇦🇺 Australia</option>
+                    <option value="Ireland">🇮🇪 Ireland</option>
+                    <option value="New Zealand">🇳🇿 New Zealand</option>
                     <option value="Other">Other</option>
                 </select>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>First Name <span class="req">*</span></label>
-                    <input type="text" id="addr-firstname" placeholder="Jane" autocomplete="given-name">
-                    <span class="field-error" id="err-firstname">Enter your first name.</span>
+                    <input type="text" id="addr-firstname" placeholder="First name (optional)" aria-label="First name" autocomplete="given-name">
                 </div>
                 <div class="form-group">
-                    <label>Last Name <span class="req">*</span></label>
-                    <input type="text" id="addr-lastname" placeholder="Smith" autocomplete="family-name">
+                    <input type="text" id="addr-lastname" placeholder="Last name" aria-label="Last name" autocomplete="family-name">
                     <span class="field-error" id="err-lastname">Enter your last name.</span>
                 </div>
             </div>
-            <div class="form-group" style="max-width:220px;">
-                <label>ZIP / Postal Code <span class="req">*</span></label>
-                <input type="text" id="addr-zip" placeholder="ZIP code" autocomplete="postal-code">
-                <span class="field-error" id="err-zip">Enter your ZIP or postal code.</span>
-            </div>
             <div class="form-group">
-                <label>Address <span class="req">*</span></label>
-                <input type="text" id="addr-street" placeholder="Street address" autocomplete="address-line1">
+                <input type="text" id="addr-street" placeholder="Address" aria-label="Address" autocomplete="address-line1">
+                <i class="fas fa-magnifying-glass field-icon"></i>
                 <span class="field-error" id="err-street">Enter your street address.</span>
             </div>
             <div class="form-group">
-                <label>Apartment, suite, etc. (optional)</label>
-                <input type="text" id="addr-comp" autocomplete="address-line2">
+                <input type="text" id="addr-comp" placeholder="Apartment, suite, etc. (optional)" aria-label="Apartment, suite, etc." autocomplete="address-line2">
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>City <span class="req">*</span></label>
-                    <input type="text" id="addr-city" placeholder="City" autocomplete="address-level2">
+                    <input type="text" id="addr-city" placeholder="City" aria-label="City" autocomplete="address-level2">
                     <span class="field-error" id="err-city">Enter your city.</span>
                 </div>
                 <div class="form-group">
-                    <label>State / Province <span class="req">*</span></label>
-                    <input type="text" id="addr-state" placeholder="State" autocomplete="address-level1">
-                    <span class="field-error" id="err-state">Enter your state or province.</span>
+                    <input type="text" id="addr-zip" placeholder="Postal/ZIP code" aria-label="Postal/ZIP code" autocomplete="postal-code">
+                    <span class="field-error" id="err-zip">Enter your ZIP or postal code.</span>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Phone <span class="req">*</span></label>
-                <input type="tel" id="cust-phone" placeholder="+1 555 123 4567" maxlength="20" inputmode="tel" autocomplete="tel">
-                <span class="field-error" id="err-phone">Invalid phone number (min. 7 digits).</span>
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" id="addr-state" placeholder="State/Province" aria-label="State/Province" autocomplete="address-level1">
+                    <span class="field-error" id="err-state">Enter your state or province.</span>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="cust-phone" placeholder="Phone" aria-label="Phone" maxlength="20" inputmode="tel" autocomplete="tel">
+                    <span class="field-error" id="err-phone">Invalid phone number (min. 7 digits).</span>
+                </div>
             </div>
-            <p class="cf-note">Used only for delivery updates about your order.</p>
+            <p class="cf-note">Phone is used only for delivery updates about your order.</p>
         </div>
 
         <!-- SHIPPING METHOD -->
         <div class="cf-section" id="sec-shipping">
             <h3>Shipping method</h3>
-            <div class="ship-urgency">
-                <i class="fas fa-clock" style="color:var(--primary);"></i>
-                <div>
-                    <div class="ship-countdown" id="ship-countdown"><span>01</span>:<span>24</span>:<span>59</span></div>
-                    <span>Still time left to order — act now and we'll process it today.</span>
-                </div>
-            </div>
             <div class="ship-placeholder" id="ship-placeholder">Enter your shipping address above to view available shipping methods.</div>
             <div class="shipping-options hidden" id="shipping-options-container"></div>
         </div>
@@ -380,18 +304,25 @@
             <p class="payment-note">All transactions are secure and encrypted.</p>
             <div class="payment-method-box">
                 <div class="payment-method-header">
-                    <span>Credit card</span>
+                    <div class="pm-left">
+                        <div class="radio-circle checked"><div class="radio-inner"></div></div>
+                        <span>Credit card</span>
+                    </div>
                     <div class="card-logos">
                         <i class="fab fa-cc-visa" style="color:#1a1f71;" aria-label="Visa"></i>
                         <i class="fab fa-cc-mastercard" style="color:#eb001b;" aria-label="Mastercard"></i>
                         <i class="fab fa-cc-amex" style="color:#2671b9;" aria-label="American Express"></i>
+                        <i class="fab fa-cc-discover" style="color:#f68121;" aria-label="Discover"></i>
                     </div>
                 </div>
                 <div class="payment-method-fields">
                     <div id="payment-element"></div>
                     <div id="payment-element-error" class="field-error"></div>
                 </div>
-                <div class="billing-note"><i class="fas fa-check-circle"></i> Billing address same as shipping address</div>
+                <label class="billing-check">
+                    <input type="checkbox" id="billing-same" checked>
+                    Use shipping address as billing address
+                </label>
             </div>
         </div>
 
@@ -420,7 +351,7 @@
         </div>
 
         <div class="discount-box">
-            <input type="text" id="disc-code" placeholder="Discount code">
+            <input type="text" id="disc-code" placeholder="Discount code or gift card">
             <button onclick="applyDiscount()">Apply</button>
         </div>
         <span class="discount-error" id="disc-error">Invalid or expired discount code.</span>
@@ -438,89 +369,30 @@
             <span>Total</span>
             <span><span class="currency-code">USD</span><span id="sum-total">$0.00</span></span>
         </div>
-
-        <div class="savings-pill hidden" id="savings-pill">
-            <i class="fas fa-tags"></i> <span id="savings-amount">TOTAL SAVINGS $0.00</span>
-        </div>
-    </aside>
-
-    <aside class="order-summary-extra">
-        <div class="trust-list">
-            <div class="trust-list-item">
-                <i class="fas fa-shield-alt"></i>
-                <div><strong>Secure Payments</strong><p>We use fully encrypted checkout so your information stays safe and private.</p></div>
-            </div>
-            <div class="trust-list-item">
-                <i class="fas fa-sync-alt"></i>
-                <div><strong>Free Size Exchanges</strong><p>Wrong size? Swap it free within 30 days — no questions asked.</p></div>
-            </div>
-            <div class="trust-list-item">
-                <i class="fas fa-award"></i>
-                <div><strong>30-Day Money Back Guarantee</strong><p>Not fully in love? Full refund, easy returns.</p></div>
-            </div>
-        </div>
-
-        <div class="review-list">
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p>"It arrived fast and the bra is amazing! No wire and real support — I don't need my old bras anymore."</p>
-                <span class="review-name">— Mariana S.</span>
-            </div>
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p>"My back pain nearly disappeared after I started wearing this. So light I barely notice I have it on."</p>
-                <span class="review-name">— Fernanda L.</span>
-            </div>
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p>"I have a large bust and always struggled with bras that dig in. This one keeps everything in place. Already ordered two more!"</p>
-                <span class="review-name">— Patricia A.</span>
-            </div>
-        </div>
     </aside>
     </div>
 </main>
 
 <footer class="checkout-footer">
-    <div class="footer-content">
-        <div style="margin-bottom:14px;">
-            <button class="footer-payment-btn" onclick="document.getElementById('paymentModal').classList.add('open')">
-                <i class="fas fa-credit-card"></i> Payment Methods
-            </button>
-        </div>
-        <div class="footer-policies-notice">
-            By completing your purchase, you agree to our privacy, exchange and return policies outlined on our homepage.
-        </div>
-        <div class="footer-legal">&copy; 2026 Julia &amp; Julie Lingerie. All rights reserved.</div>
+    <div class="footer-links">
+        <a href="index.html">Refund policy</a><span class="sep">|</span>
+        <a href="index.html">Shipping</a><span class="sep">|</span>
+        <a href="index.html">Privacy policy</a><span class="sep">|</span>
+        <a href="index.html">Terms of service</a><span class="sep">|</span>
+        <a href="mailto:juliajulie@gmail.com">Contact</a>
     </div>
 </footer>
-
-<div class="payment-modal-overlay" id="paymentModal" onclick="if(event.target===this)this.classList.remove('open')">
-    <div class="payment-modal-box">
-        <button class="payment-modal-close" onclick="document.getElementById('paymentModal').classList.remove('open')">&times;</button>
-        <h3>Payment Methods</h3>
-        <div class="payment-icons-grid">
-            <div class="pay-icon-item">
-                <i class="fab fa-cc-visa" style="color:#1a1f71;"></i>
-                <span>Visa</span>
-            </div>
-            <div class="pay-icon-item">
-                <i class="fab fa-cc-mastercard" style="color:#eb001b;"></i>
-                <span>Mastercard</span>
-            </div>
-            <div class="pay-icon-item">
-                <i class="fab fa-cc-amex" style="color:#2671b9;"></i>
-                <span>American Express</span>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     const STRIPE_PUBLISHABLE_KEY = 'pk_test_51Tr5q8GWR2Q7aHtvwYQyTLVq1YQ1LPFxERF0KGFxfWLih469bVW77Zjou6CP1W87FAaGpirSwtkvDwO1RcITAXb800OAwtV0dH';
     const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
     let elements = null;
     let paymentElement = null;
+
+    const COUNTRY_ISO = {
+        'United States': 'US', 'United Kingdom': 'GB', 'Canada': 'CA',
+        'Australia': 'AU', 'Ireland': 'IE', 'New Zealand': 'NZ'
+    };
 
     const urlParams = new URLSearchParams(window.location.search);
     const promoType = urlParams.get('promo') || 'B';
@@ -548,10 +420,6 @@
         document.getElementById('sum-variant').textContent = `${color} / ${size}`;
         document.getElementById('prod-price-old').textContent = fmt(oldPrice);
         document.getElementById('prod-price-current').textContent = fmt(basePrice);
-        if (oldPrice > basePrice) {
-            document.getElementById('savings-pill').classList.remove('hidden');
-            document.getElementById('savings-amount').textContent = `TOTAL SAVINGS ${fmt(oldPrice - basePrice)}`;
-        }
     })();
 
     // ── DISCOUNT CODE ──────────────────────────────────────
@@ -606,7 +474,7 @@
     }
 
     function deliveryFieldsComplete() {
-        return ['addr-firstname','addr-lastname','addr-street','addr-city','addr-state','addr-zip'].every(id => document.getElementById(id).value.trim().length > 0);
+        return ['addr-lastname','addr-street','addr-city','addr-state','addr-zip'].every(id => document.getElementById(id).value.trim().length > 0);
     }
 
     function checkRevealShipping() {
@@ -630,7 +498,7 @@
     function updateTotalDisplay() {
         const shipCost = selectedShippingPrice || 0;
         const total = Math.max(0, basePrice - discountAmount + shipCost);
-        const shipTxt = shippingRevealed ? (shipCost === 0 ? 'Free' : fmt(shipCost)) : 'Calculated at next step';
+        const shipTxt = shippingRevealed ? (shipCost === 0 ? 'Free' : fmt(shipCost)) : 'Enter shipping address';
 
         document.getElementById('sum-subtotal').textContent = fmt(basePrice);
         document.getElementById('sum-shipping').textContent = shipTxt;
@@ -642,8 +510,8 @@
     updateTotalDisplay();
 
     // ── ERROR CLEARING ────────────────────────────────────
-    ['cust-email','cust-phone','addr-firstname','addr-lastname','addr-street','addr-city','addr-state','addr-zip'].forEach(id => {
-        const errMap = { 'cust-email':'err-email','cust-phone':'err-phone','addr-firstname':'err-firstname','addr-lastname':'err-lastname','addr-street':'err-street','addr-city':'err-city','addr-state':'err-state','addr-zip':'err-zip' };
+    ['cust-email','cust-phone','addr-lastname','addr-street','addr-city','addr-state','addr-zip'].forEach(id => {
+        const errMap = { 'cust-email':'err-email','cust-phone':'err-phone','addr-lastname':'err-lastname','addr-street':'err-street','addr-city':'err-city','addr-state':'err-state','addr-zip':'err-zip' };
         document.getElementById(id)?.addEventListener('input', function() {
             this.classList.remove('error');
             if (errMap[id]) document.getElementById(errMap[id])?.classList.remove('show');
@@ -683,7 +551,7 @@
         if (phone.replace(/\D/g,'').length < 7) { showErr('cust-phone','err-phone'); ok = false; markInvalid('cust-phone'); } else hideErr('cust-phone','err-phone');
 
         const checks = [
-            ['addr-firstname','err-firstname'], ['addr-lastname','err-lastname'],
+            ['addr-lastname','err-lastname'],
             ['addr-street','err-street'], ['addr-city','err-city'],
             ['addr-state','err-state'], ['addr-zip','err-zip'],
         ];
@@ -700,12 +568,15 @@
     }
 
     // ── STRIPE PAYMENT ELEMENT ─────────────────────────────
-    // Mounted once on load (card fields visible immediately, like the
-    // reference checkout). Amount updates live via elements.update() as
-    // shipping/discount change, without remounting — so a card number the
-    // buyer already started typing is never wiped. The real PaymentIntent
-    // (with the buyer's address in its metadata, used by the webhook) is
-    // only created at submit time, after validateAll() passes.
+    // Mounted once on load (card fields visible immediately). Amount updates
+    // live via elements.update() as shipping/discount change, without
+    // remounting — so a card number the buyer already started typing is
+    // never wiped. Billing address collection is disabled on the element
+    // itself (fields.billingDetails.address: 'never') because we already
+    // collect a shipping address and pass it as billing_details at confirm
+    // time when "Use shipping address as billing address" is checked. The
+    // real PaymentIntent (used by the webhook) is only created at submit
+    // time, after validateAll() passes.
     function initPaymentElement() {
         elements = stripe.elements({
             mode: 'payment',
@@ -718,11 +589,13 @@
                     colorText: '#1a1a1a',
                     colorDanger: '#ef4444',
                     fontFamily: 'Inter, sans-serif',
-                    borderRadius: '8px'
+                    borderRadius: '6px'
                 }
             }
         });
-        paymentElement = elements.create('payment');
+        paymentElement = elements.create('payment', {
+            fields: { billingDetails: { address: 'never', name: 'auto' } }
+        });
         paymentElement.mount('#payment-element');
     }
     initPaymentElement();
@@ -771,13 +644,33 @@
             const data = await res.json();
             if (!res.ok || !data.clientSecret) throw new Error(data.error || 'Could not start payment.');
 
+            const confirmParams = {
+                return_url: `${window.location.origin}/obrigado.html?type=card`,
+                receipt_email: document.getElementById('cust-email').value,
+            };
+
+            if (document.getElementById('billing-same').checked) {
+                const countryName = document.getElementById('addr-country').value;
+                confirmParams.payment_method_data = {
+                    billing_details: {
+                        name: `${document.getElementById('addr-firstname').value.trim()} ${document.getElementById('addr-lastname').value.trim()}`.trim() || undefined,
+                        phone: document.getElementById('cust-phone').value || undefined,
+                        address: {
+                            line1: document.getElementById('addr-street').value,
+                            line2: document.getElementById('addr-comp').value || undefined,
+                            city: document.getElementById('addr-city').value,
+                            state: document.getElementById('addr-state').value,
+                            postal_code: document.getElementById('addr-zip').value,
+                            country: COUNTRY_ISO[countryName] || undefined,
+                        }
+                    }
+                };
+            }
+
             const { error, paymentIntent } = await stripe.confirmPayment({
                 elements,
                 clientSecret: data.clientSecret,
-                confirmParams: {
-                    return_url: `${window.location.origin}/obrigado.html?type=card`,
-                    receipt_email: document.getElementById('cust-email').value,
-                },
+                confirmParams,
                 redirect: 'if_required'
             });
 
@@ -806,22 +699,6 @@
             document.getElementById('loading-overlay').classList.remove('active');
         }
     }
-
-    // ── SHIPPING URGENCY COUNTDOWN ────────────────────────
-    (function countdown() {
-        const now = new Date();
-        const midnight = new Date(now);
-        midnight.setHours(24, 0, 0, 0);
-        let secondsLeft = Math.floor((midnight - now) / 1000);
-        const el = document.getElementById('ship-countdown');
-        setInterval(() => {
-            secondsLeft = Math.max(0, secondsLeft - 1);
-            const h = Math.floor(secondsLeft / 3600);
-            const m = Math.floor((secondsLeft % 3600) / 60);
-            const s = secondsLeft % 60;
-            el.innerHTML = `<span>${String(h).padStart(2,'0')}</span>:<span>${String(m).padStart(2,'0')}</span>:<span>${String(s).padStart(2,'0')}</span>`;
-        }, 1000);
-    })();
 </script>
 
 </body>
