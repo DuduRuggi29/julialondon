@@ -595,7 +595,7 @@
             }
         });
         paymentElement = elements.create('payment', {
-            fields: { billingDetails: { address: 'never', name: 'auto' } }
+            fields: { billingDetails: { address: 'never', name: 'always' } }
         });
         paymentElement.mount('#payment-element');
     }
@@ -654,7 +654,10 @@
                 const countryName = document.getElementById('addr-country').value;
                 confirmParams.payment_method_data = {
                     billing_details: {
-                        name: `${document.getElementById('addr-firstname').value.trim()} ${document.getElementById('addr-lastname').value.trim()}`.trim() || undefined,
+                        // Name on card is collected by the Payment Element itself
+                        // (fields.billingDetails.name: 'always') — don't override it
+                        // here, since the cardholder's name can differ from the
+                        // shipping recipient's (e.g. a gift order).
                         phone: document.getElementById('cust-phone').value || undefined,
                         address: {
                             line1: document.getElementById('addr-street').value,
