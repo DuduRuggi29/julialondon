@@ -385,7 +385,7 @@
 
 <script>
     const STRIPE_PUBLISHABLE_KEY = 'pk_test_51Tr5q8GWR2Q7aHtvwYQyTLVq1YQ1LPFxERF0KGFxfWLih469bVW77Zjou6CP1W87FAaGpirSwtkvDwO1RcITAXb800OAwtV0dH';
-    const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+    const stripe = Stripe(STRIPE_PUBLISHABLE_KEY, { locale: 'en' });
     let elements = null;
     let paymentElement = null;
 
