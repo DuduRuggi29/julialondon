@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
 
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amountInCents,
-            currency: 'usd',
+            currency: 'gbp',
             payment_method_types: ['card'],
             receipt_email: customerEmail || undefined,
             metadata: {

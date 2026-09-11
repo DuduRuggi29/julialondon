@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Checkout — Julia &amp; Julie Lingerie</title>
     <!-- Meta Pixel Code -->
-    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','3832792887031077');fbq('track','PageView');(function(){if(sessionStorage.getItem('jj_ic_fired'))return;sessionStorage.setItem('jj_ic_fired','1');const p=new URLSearchParams(window.location.search);const prices={A:34.99,B:52.49,C:69.98};const promo=p.get('promo')||'B';const qty=parseInt(p.get('qty')||'1');const val=Math.round((prices[promo]||52.49)*qty*100)/100;fbq('track','InitiateCheckout',{content_name:'Hanna 3.0 Bra',content_ids:['sutia-hanna-30'],content_type:'product',value:val,currency:'USD',num_items:qty});})();</script>
+    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','3832792887031077');fbq('track','PageView');(function(){if(sessionStorage.getItem('jj_ic_fired'))return;sessionStorage.setItem('jj_ic_fired','1');const p=new URLSearchParams(window.location.search);const prices={A:34.99,B:52.49,C:69.98};const promo=p.get('promo')||'B';const qty=parseInt(p.get('qty')||'1');const val=Math.round((prices[promo]||52.49)*qty*100)/100;fbq('track','InitiateCheckout',{content_name:'Hanna 3.0 Bra',content_ids:['sutia-hanna-30'],content_type:'product',value:val,currency:'GBP',num_items:qty});})();</script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=3832792887031077&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel Code -->
     <script src="https://js.stripe.com/v3/"></script>
@@ -242,8 +242,8 @@
             <h3>Delivery</h3>
             <div class="form-group">
                 <select id="addr-country" class="form-select" aria-label="Country/Region" autocomplete="country">
-                    <option value="United States">🇺🇸 United States</option>
                     <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                    <option value="United States">🇺🇸 United States</option>
                     <option value="Canada">🇨🇦 Canada</option>
                     <option value="Australia">🇦🇺 Australia</option>
                     <option value="Ireland">🇮🇪 Ireland</option>
@@ -345,8 +345,8 @@
                 <p id="sum-variant">Black / S (40)</p>
             </div>
             <div class="product-price">
-                <span class="product-price-old" id="prod-price-old">$69.98</span>
-                <span class="product-price-current" id="prod-price-current">$52.49</span>
+                <span class="product-price-old" id="prod-price-old">£69.98</span>
+                <span class="product-price-current" id="prod-price-current">£52.49</span>
             </div>
         </div>
 
@@ -361,13 +361,13 @@
         </div>
 
         <div class="summary-rows">
-            <div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">$0.00</span></div>
-            <div class="summary-row discount hidden" id="row-discount"><span>Discount</span><span id="sum-discount">-$0.00</span></div>
+            <div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">£0.00</span></div>
+            <div class="summary-row discount hidden" id="row-discount"><span>Discount</span><span id="sum-discount">-£0.00</span></div>
             <div class="summary-row"><span>Shipping</span><span id="sum-shipping">Enter shipping address</span></div>
         </div>
         <div class="summary-row total">
             <span>Total</span>
-            <span><span class="currency-code">USD</span><span id="sum-total">$0.00</span></span>
+            <span><span class="currency-code">GBP</span><span id="sum-total">£0.00</span></span>
         </div>
     </aside>
     </div>
@@ -468,7 +468,7 @@
         const container = document.getElementById('shipping-options-container');
         container.innerHTML =
             shippingOption('standard', 0,     'Free',   'Standard Shipping', 'Delivered in 10 to 20 business days', true,  true)  +
-            shippingOption('express',  19.99, '$19.99', 'Express Shipping',  'Delivered in 5 to 9 business days',   false, false);
+            shippingOption('express',  19.99, '£19.99', 'Express Shipping',  'Delivered in 5 to 9 business days',   false, false);
         selectedShippingPrice = 0;
         selectedShippingName = 'Standard Shipping';
     }
@@ -493,7 +493,7 @@
     });
 
     // ── DISPLAY ──────────────────────────────────────────
-    function fmt(n) { return '$' + n.toFixed(2); }
+    function fmt(n) { return '£' + n.toFixed(2); }
 
     function updateTotalDisplay() {
         const shipCost = selectedShippingPrice || 0;
@@ -581,7 +581,7 @@
         elements = stripe.elements({
             mode: 'payment',
             amount: Math.round(basePrice * 100),
-            currency: 'usd',
+            currency: 'gbp',
             paymentMethodTypes: ['card'],
             appearance: {
                 theme: 'stripe',
@@ -688,9 +688,9 @@
             if (paymentIntent && (paymentIntent.status === 'succeeded' || paymentIntent.status === 'processing')) {
                 if (typeof fbq !== 'undefined' && !sessionStorage.getItem('jj_pur_fired')) {
                     sessionStorage.setItem('jj_pur_fired', '1');
-                    fbq('track', 'Purchase', { value: totalPrice, currency: 'USD', num_items: UNITS[promoType] * qty, content_ids: ['sutia-hanna-30'], content_type: 'product' });
-                    fbq('trackCustom', 'PurchaseNewClient', { value: totalPrice, currency: 'USD' });
-                    fbq('trackCustom', 'PurchaseCard', { value: totalPrice, currency: 'USD' });
+                    fbq('track', 'Purchase', { value: totalPrice, currency: 'GBP', num_items: UNITS[promoType] * qty, content_ids: ['sutia-hanna-30'], content_type: 'product' });
+                    fbq('trackCustom', 'PurchaseNewClient', { value: totalPrice, currency: 'GBP' });
+                    fbq('trackCustom', 'PurchaseCard', { value: totalPrice, currency: 'GBP' });
                 }
                 window.location.href = `/obrigado.html?type=card&total=${totalPrice}`;
             } else {

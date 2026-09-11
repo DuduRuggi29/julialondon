@@ -332,8 +332,8 @@ function renderTable(orders) {
       <td>${o.quantidade || 1}</td>
       <td>${esc(o.tamanho)}</td>
       <td>${esc(o.cor)}</td>
-      <td>${o.custo_frete == 0 ? '<span style="color:#1a7a4a;font-weight:600;">Grátis</span>' : 'R$' + parseFloat(o.custo_frete).toFixed(2).replace('.',',')}</td>
-      <td><strong>R$${parseFloat(o.total||0).toFixed(2).replace('.',',')}</strong></td>
+      <td>${o.custo_frete == 0 ? '<span style="color:#1a7a4a;font-weight:600;">Grátis</span>' : '£' + parseFloat(o.custo_frete).toFixed(2)}</td>
+      <td><strong>£${parseFloat(o.total||0).toFixed(2)}</strong></td>
       <td>${esc(o.forma_pagamento)}</td>
       <td>${statusBadge}</td>
     </tr>`;
@@ -353,7 +353,7 @@ function exportCSV() {
   a.click(); URL.revokeObjectURL(url);
 }
 
-function fmt(v) { return 'R$ ' + v.toFixed(2).replace('.',','); }
+function fmt(v) { return '£' + v.toFixed(2); }
 function esc(v) { return (v || '—').toString().replace(/</g,'&lt;'); }
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
