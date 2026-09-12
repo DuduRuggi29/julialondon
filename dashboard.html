@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Julia & Julie — Dashboard</title>
+<title>Julias London — Dashboard</title>
 <style>
   :root {
     --rosa: #c97b9a;
@@ -103,9 +103,9 @@
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
-    <img src="logo.png" alt="Julia & Julie">
+    <img src="logo.png" alt="Julias London">
     <h2>Painel Administrativo</h2>
-    <p>Acesso restrito à equipe Julia &amp; Julie</p>
+    <p>Acesso restrito à equipe Julias London</p>
     <input type="password" id="pwd-input" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')doLogin()">
     <button onclick="doLogin()">Entrar</button>
     <p id="login-error">Senha incorreta. Tente novamente.</p>
@@ -115,7 +115,7 @@
 <!-- DASHBOARD -->
 <div id="dashboard">
   <header class="dash-header">
-    <h1><span class="star">✦</span> Julia &amp; Julie — Dashboard</h1>
+    <h1><span class="star">✦</span> Julias London — Dashboard</h1>
     <div class="dash-header-right">
       <div class="updated-badge" id="updated-time">atualizado --:--</div>
       <button class="btn-sair" onclick="doLogout()">Sair</button>
@@ -349,7 +349,7 @@ function exportCSV() {
   const blob   = new Blob(['﻿' + csv], { type:'text/csv;charset=utf-8;' });
   const url    = URL.createObjectURL(blob);
   const a      = document.createElement('a'); a.href = url;
-  a.download   = `pedidos_julia_julie_${new Date().toISOString().slice(0,10)}.csv`;
+  a.download   = `pedidos_julias_london_${new Date().toISOString().slice(0,10)}.csv`;
   a.click(); URL.revokeObjectURL(url);
 }
 
