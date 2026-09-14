@@ -189,10 +189,11 @@
               <th>Valor</th>
               <th>Pagamento</th>
               <th>Status</th>
+              <th>Rastreio</th>
             </tr>
           </thead>
           <tbody id="orders-body">
-            <tr><td colspan="13" class="loading">Carregando...</td></tr>
+            <tr><td colspan="14" class="loading">Carregando...</td></tr>
           </tbody>
         </table>
       </div>
@@ -315,7 +316,7 @@ function renderStats(orders) {
 function renderTable(orders) {
   const tbody = document.getElementById('orders-body');
   if (!orders.length) {
-    tbody.innerHTML = '<tr><td colspan="13" class="no-orders">Nenhum pedido encontrado.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="14" class="no-orders">Nenhum pedido encontrado.</td></tr>';
     return;
   }
   tbody.innerHTML = orders.map(o => {
@@ -336,13 +337,35 @@ function renderTable(orders) {
       <td><strong>£${parseFloat(o.total||0).toFixed(2)}</strong></td>
       <td>${esc(o.forma_pagamento)}</td>
       <td>${statusBadge}</td>
+      <td>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <input type="text" class="tracking-input" id="tracking-${o.id}" value="${(o.codigo_rastreio||'').toString().replace(/"/g,'&quot;')}" placeholder="Código" style="width:120px; padding:6px 8px; border:1.5px solid #e8d5e0; border-radius:6px; font-size:12px; font-family:'Poppins',sans-serif;">
+          <button onclick="saveTracking(${o.id})" style="padding:6px 10px; background:var(--rosa-escuro); color:#fff; border:none; border-radius:6px; font-size:11px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif;">Salvar</button>
+          <span id="tracking-saved-${o.id}" style="display:none; color:#1a7a4a; font-size:12px;">✓</span>
+        </div>
+      </td>
     </tr>`;
   }).join('');
 }
 
+async function saveTracking(id) {
+  const input = document.getElementById(`tracking-${id}`);
+  const saved = document.getElementById(`tracking-saved-${id}`);
+  const codigo_rastreio = input.value.trim();
+  await fetch('/api/orders', {
+    method: 'POST',
+    headers: { 'x-dashboard-password': dashPassword, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'update_tracking', id, codigo_rastreio })
+  });
+  const order = allOrders.find(o => o.id === id);
+  if (order) order.codigo_rastreio = codigo_rastreio;
+  saved.style.display = 'inline';
+  setTimeout(() => { saved.style.display = 'none'; }, 2000);
+}
+
 function exportCSV() {
   if (!allOrders.length) return alert('Nenhum pedido para exportar.');
-  const cols = ['criado_em','nome','email','telefone','cpf','rua','numero','complemento','bairro','cidade','estado','cep','kit','nome_kit','quantidade','tamanho','cor','tipo_frete','custo_frete','forma_pagamento','status_pagamento','subtotal','desconto','total','status'];
+  const cols = ['criado_em','nome','email','telefone','cpf','rua','numero','complemento','bairro','cidade','estado','cep','kit','nome_kit','quantidade','tamanho','cor','tipo_frete','custo_frete','forma_pagamento','status_pagamento','subtotal','desconto','total','status','codigo_rastreio'];
   const header = cols.join(';');
   const rows   = allOrders.map(o => cols.map(c => `"${(o[c]||'').toString().replace(/"/g,'""')}"`).join(';'));
   const csv    = [header, ...rows].join('\n');
