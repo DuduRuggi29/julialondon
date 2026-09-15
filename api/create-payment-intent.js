@@ -1,6 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-const PRICES    = { A: 18.90, B: 32.90, C: 44.90 };
+const PRICES    = { A: 18.90, B: 29.90, C: 38.90 };
 const UNITS     = { A: 1, B: 2, C: 3 };
 const DISCOUNT_CODES = { JULIA10: 0.10, JULIE15: 0.15 };
 const SHIPPING_PRICES = [0, 4.85];
