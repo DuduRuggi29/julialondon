@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const PRICES    = { A: 5, B: 52.49, C: 69.98 };
 const UNITS     = { A: 1, B: 2, C: 3 };
 const DISCOUNT_CODES = { JULIA10: 0.10, JULIE15: 0.15 };
-const SHIPPING_PRICES = [0, 19.99];
+const SHIPPING_PRICES = [0, 4.85];
 
 module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

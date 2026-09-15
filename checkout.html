@@ -457,7 +457,7 @@
                     <div class="radio-circle"><div class="radio-inner"></div></div>
                     <div>
                         <span class="shipping-text">${title}</span>
-                        <span class="shipping-eta">${eta}</span>
+                        ${eta ? `<span class="shipping-eta">${eta}</span>` : ''}
                     </div>
                 </div>
                 <span class="shipping-price${isFree ? ' free' : ''}">${costLabel}</span>
@@ -467,8 +467,8 @@
     function buildShippingOptions() {
         const container = document.getElementById('shipping-options-container');
         container.innerHTML =
-            shippingOption('standard', 0,     'Free',   'Standard Shipping', 'Delivered in 10 to 20 business days', true,  true)  +
-            shippingOption('express',  19.99, '£19.99', 'Express Shipping',  'Delivered in 5 to 9 business days',   false, false);
+            shippingOption('standard', 0,    'Free',  'Standard Shipping', '', true,  true)  +
+            shippingOption('express',  4.85, '£4.85', 'Express Shipping',  '', false, false);
         selectedShippingPrice = 0;
         selectedShippingName = 'Standard Shipping';
     }
