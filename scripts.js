@@ -14,7 +14,7 @@
             document.querySelectorAll('.swatch').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
             selectedColor = color;
-            document.getElementById('colorLabel').innerHTML = `Color: <strong>${color}</strong>`;
+            document.getElementById('colorLabel').innerHTML = `Colour: <strong>${color}</strong>`;
         }
 
         function selectSize(element, size) {

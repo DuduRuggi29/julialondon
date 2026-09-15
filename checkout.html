@@ -274,14 +274,13 @@
                     <span class="field-error" id="err-city">Enter your city.</span>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="addr-zip" placeholder="Postal/ZIP code" aria-label="Postal/ZIP code" autocomplete="postal-code">
-                    <span class="field-error" id="err-zip">Enter your ZIP or postal code.</span>
+                    <input type="text" id="addr-zip" placeholder="Postcode" aria-label="Postcode" autocomplete="postal-code">
+                    <span class="field-error" id="err-zip">Enter your postcode.</span>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <input type="text" id="addr-state" placeholder="State/Province" aria-label="State/Province" autocomplete="address-level1">
-                    <span class="field-error" id="err-state">Enter your state or province.</span>
+                    <input type="text" id="addr-state" placeholder="County (optional)" aria-label="County" autocomplete="address-level1">
                 </div>
                 <div class="form-group">
                     <input type="tel" id="cust-phone" placeholder="Phone" aria-label="Phone" maxlength="20" inputmode="tel" autocomplete="tel">
@@ -474,7 +473,7 @@
     }
 
     function deliveryFieldsComplete() {
-        return ['addr-lastname','addr-street','addr-city','addr-state','addr-zip'].every(id => document.getElementById(id).value.trim().length > 0);
+        return ['addr-lastname','addr-street','addr-city','addr-zip'].every(id => document.getElementById(id).value.trim().length > 0);
     }
 
     function checkRevealShipping() {
@@ -568,7 +567,7 @@
         const checks = [
             ['addr-lastname','err-lastname'],
             ['addr-street','err-street'], ['addr-city','err-city'],
-            ['addr-state','err-state'], ['addr-zip','err-zip'],
+            ['addr-zip','err-zip'],
         ];
         checks.forEach(([id, eid]) => {
             const el = document.getElementById(id);
